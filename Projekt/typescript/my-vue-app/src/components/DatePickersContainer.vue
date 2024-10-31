@@ -3,11 +3,13 @@
   <div style="display: flex; justify-content: center;">
     <div style="margin-right: 50px;">
       <label for="startDate">Beginn </label>
-      <n-date-picker panel type="date" :value="localStartDate?.getTime()" @update-value="$emit('update:startDate', !$event ? undefined : new Date($event))"/>
+      <n-date-picker panel type="date" :value="localStartDate?.getTime()" @update-value="$emit('update:startDate',
+                                                                                               !$event ? undefined : new Date($event))"/>
     </div>
     <div>
       <label for="endDate">Ende </label>
-      <n-date-picker panel type="date" :value="localEndDate?.getTime()" @update-value="$emit('update:endDate', !$event ? undefined : new Date($event))"/>
+      <n-date-picker panel type="date" :value="localEndDate?.getTime()" @update-value="$emit('update:endDate',
+                                                                                             !$event ? undefined : new Date($event))"/>
     </div>
   </div>
 </template>
@@ -21,27 +23,25 @@ export default defineComponent({
     endDate: Date,
   },
   setup(props, { emit }) {
-    // Refs for the local state
+    // Referenz für local state
     const localStartDate = ref(props.startDate);
     const localEndDate = ref(props.endDate);
 
-    // Watch for changes in startDate and endDate props using watchEffect
+    // warte auf Eingabe im Kalender-widget
     watchEffect(() => {
       localStartDate.value = props.startDate;
       localEndDate.value = props.endDate;
 
-      // Emit the updated values to the parent component
+      // Ausgabe an App.vue
       emit('updateDatePickersValues', {
         startDate: localStartDate.value,
         endDate: localEndDate.value,
-        // Add other values as needed
       });
     });
 
     return {
       localStartDate,
       localEndDate,
-      // Add other properties or functions as needed
     };
   },
 });
